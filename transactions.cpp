@@ -17,5 +17,7 @@ using std::ofstream;
  * @param transaction Transaction to print
 */
 void TransactionDumpInfo(const Transaction &transaction, ofstream &file) {
-
+    file << "Sender Name: " << transaction.sender << "\n";
+    file << "Receiver Name: " << transaction.receiver << "\n";
+    file << "Transaction Value: " << transaction.value << "\n";
 }
