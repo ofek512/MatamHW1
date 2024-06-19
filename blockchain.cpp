@@ -8,8 +8,6 @@
 using std::string;
 using std::ifstream;
 using std::ofstream;
-
-
 /**
  * BlockChainPersonalBalance - returns the balance of a given person, relative to a given BlockChain
  *
@@ -19,10 +17,25 @@ using std::ofstream;
  * @return Balance of the person
 */
 int BlockChainPersonalBalance(const BlockChain& blockChain, const string& name){
-        
+    int balance = 0;
+    BlockChainNode node = blockChain.head;
+    Transaction transact = node.transaction;
+    while(node.previous != nullptr) {
+        if(transact.sender == name) {
+            balance -= transact.value;
+        } else if(transact.receiver == name) {
+            balance += transact.value;
+        }
+        node = node.previous;
+    }
+    //last check because next node is a nullptr
+    if(transact.sender == name) {
+        balance -= transact.value;
+    } else if(transact.receiver == name) {
+        balance += transact.value;
+    }
+    return balance;
 }
-
-
 /**
  * BlockChainAppendTransaction - creates and appends a new transaction to the BlockChain
  *
@@ -48,8 +61,6 @@ void BlockChainAppendTransaction(
     newNode->previous = blockChain.head;
     blockChain.head = newNode;
 }
-
-
 /**
  * BlockChainAppendTransaction - appends a copy of a given transaction to the BlockChain
  *
