@@ -15,7 +15,7 @@ typedef unsigned int (*updateFunction)(unsigned int);
 
 struct BlockChainNode {
     Transaction transaction;
-    Blockchain* head; // points to the head of the nodes
+    Blockchain* previous; // points to the head of the nodes
 };
 
 /**
@@ -24,7 +24,7 @@ struct BlockChainNode {
  * the first blockchain will point to "nullptr" so we know what is our genesis(first) transaction 
 */
 struct BlockChain {
-    Blockchain* head; // points to the head of the nodes
+    BlockChainNode* head; // points to the head of the nodes
 };
 
 /**
