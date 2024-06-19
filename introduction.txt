@@ -15,7 +15,7 @@ And you, who are you? Tell us a bit about yourselves!
 	- Favorite song: Smoking out the window
 	- Desirable grade in Matam: 99
 
-2.	- Second student's name:
-	- Favorite singer:
-	- Favorite song:
-	- Desirable grade in Matam:
+2.	- Second student's name: Pavel Russko
+	- Favorite singer: James Keenan
+	- Favorite song: Again
+	- Desirable grade in Matam: 101
