@@ -2,7 +2,7 @@
 
 #include <string>
 #include <fstream>
-
+#include "BlockChain.h"
 #include "Transaction.h"
 
 using std::string;
@@ -18,7 +18,9 @@ using std::ofstream;
  *
  * @return Balance of the person
 */
-int BlockChainPersonalBalance(const BlockChain& blockChain, const string& name);
+int BlockChainPersonalBalance(const BlockChain& blockChain, const string& name){
+        
+}
 
 
 /**
@@ -36,7 +38,9 @@ void BlockChainAppendTransaction(
         const string& sender,
         const string& receiver,
         const string& timestamp
-);
+){
+        
+}
 
 
 /**
@@ -50,4 +54,6 @@ void BlockChainAppendTransaction(
         BlockChain& blockChain,
         const Transaction& transaction,
         const string& timestamp
-);
+){
+        
+}
