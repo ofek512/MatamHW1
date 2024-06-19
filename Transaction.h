@@ -19,7 +19,6 @@ struct Transaction {
     string receiver;
 };
 
-
 /**
  * TransactionDumpInfo - Prints the data of the transaction to a given file
  *
