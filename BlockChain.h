@@ -13,23 +13,15 @@ using std::ofstream;
 
 typedef unsigned int (*updateFunction)(unsigned int);
 
-struct BlockchainNode {
-    Transaction transaction;
-    BlockchainNode* prev; // Pointer to the previous node
-};
-
 /**
 *
- * BlockChain - Defining the new BlockChain Type
- *
+ * BlockChain - Defining the new BlockChain Type it holds a transaction and a pointer to the previous node that holds that previous transaction
+ * the first blockchain will point to "nullptr" so we know what is our genesis(first) transaction 
 */
 struct BlockChain {
-    // You may add any fields you believe are necessary
-    BlockchainNode* head; // Pointer to the first node
-    // Constructor to initialize an empty blockchain
-    Blockchain() : head(nullptr) {}
+    Transaction transaction;
+    Blockchain* prev; // Pointer to the previous node
 };
-
 
 /**
  * BlockChainGetSize - returns the number of Blocks in the BlockChain
