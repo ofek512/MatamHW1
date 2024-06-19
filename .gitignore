@@ -1,0 +1,7 @@
+# Ignore compiled files
+*.o
+*.exe
+
+# Ignore specific files
+CMakeLists.txt
+cmake-build-debug/

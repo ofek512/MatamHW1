@@ -18,8 +18,8 @@ using std::ofstream;
  *
  * @return Balance of the person
 */
-int BlockChainPersonalBalance(const BlockChain& blockChain, const string& name){
-        
+int
+BlockChainPersonalBalance(const BlockChain &blockChain, const string &name) {
 }
 
 
@@ -33,13 +33,13 @@ int BlockChainPersonalBalance(const BlockChain& blockChain, const string& name){
  * @param timestamp String that holds the time the transaction was made
 */
 void BlockChainAppendTransaction(
-        BlockChain& blockChain,
+        BlockChain &blockChain,
         unsigned int value,
-        const string& sender,
-        const string& receiver,
-        const string& timestamp
-){
-        
+        const string &sender,
+        const string &receiver,
+        const string &timestamp
+) {
+
 }
 
 
@@ -51,9 +51,9 @@ void BlockChainAppendTransaction(
  * @param timestamp String that holds the time the transaction was made
 */
 void BlockChainAppendTransaction(
-        BlockChain& blockChain,
-        const Transaction& transaction,
-        const string& timestamp
-){
-        
+        BlockChain &blockChain,
+        const Transaction &transaction,
+        const string &timestamp
+) {
+
 }
