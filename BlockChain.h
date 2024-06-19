@@ -13,6 +13,10 @@ using std::ofstream;
 
 typedef unsigned int (*updateFunction)(unsigned int);
 
+struct BlockchainNode {
+    Transaction transaction;
+    BlockchainNode* prev; // Pointer to the previous node
+};
 
 /**
 *
@@ -21,6 +25,9 @@ typedef unsigned int (*updateFunction)(unsigned int);
 */
 struct BlockChain {
     // You may add any fields you believe are necessary
+    BlockchainNode* head; // Pointer to the first node
+    // Constructor to initialize an empty blockchain
+    Blockchain() : head(nullptr) {}
 };
 
 
