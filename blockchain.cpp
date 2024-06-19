@@ -8,6 +8,7 @@
 using std::string;
 using std::ifstream;
 using std::ofstream;
+
 /**
  * BlockChainPersonalBalance - returns the balance of a given person, relative to a given BlockChain
  *
@@ -16,26 +17,28 @@ using std::ofstream;
  *
  * @return Balance of the person
 */
-int BlockChainPersonalBalance(const BlockChain& blockChain, const string& name){
-    int balance = 0;
-    BlockChainNode node = blockChain.head;
-    Transaction transact = node.transaction;
-    while(node.previous != nullptr) {
-        if(transact.sender == name) {
+int
+BlockChainPersonalBalance(const BlockChain &blockChain, const string &name) {
+    unsigned int balance = 0;
+    BlockChainNode *node = blockChain.head;
+    Transaction transact = node->transaction;
+    while (node->previous != nullptr) {
+        if (transact.sender == name) {
             balance -= transact.value;
-        } else if(transact.receiver == name) {
+        } else if (transact.receiver == name) {
             balance += transact.value;
         }
-        node = node.previous;
+        node = node->previous;
     }
     //last check because next node is a nullptr
-    if(transact.sender == name) {
+    if (transact.sender == name) {
         balance -= transact.value;
-    } else if(transact.receiver == name) {
+    } else if (transact.receiver == name) {
         balance += transact.value;
     }
     return balance;
 }
+
 /**
  * BlockChainAppendTransaction - creates and appends a new transaction to the BlockChain
  *
@@ -46,21 +49,22 @@ int BlockChainPersonalBalance(const BlockChain& blockChain, const string& name){
  * @param timestamp String that holds the time the transaction was made
 */
 void BlockChainAppendTransaction(
-        BlockChain& blockChain,
+        BlockChain &blockChain,
         unsigned int value,
-        const string& sender,
-        const string& receiver,
-        const string& timestamp
-){
-    Transaction* newTrans = new Transaction;
+        const string &sender,
+        const string &receiver,
+        const string &timestamp
+) {
+    Transaction *newTrans = new Transaction;
     newTrans->value = value;
     newTrans->sender = sender;
     newTrans->receiver = receiver;
-    BlockChainNode* newNode = new BlockChainNode;
-    newNode->transaction = newTrans;
+    BlockChainNode *newNode = new BlockChainNode;
+    newNode->transaction = *newTrans;
     newNode->previous = blockChain.head;
     blockChain.head = newNode;
 }
+
 /**
  * BlockChainAppendTransaction - appends a copy of a given transaction to the BlockChain
  *
@@ -69,11 +73,11 @@ void BlockChainAppendTransaction(
  * @param timestamp String that holds the time the transaction was made
 */
 void BlockChainAppendTransaction(
-        BlockChain& blockChain,
-        const Transaction& transaction,
-        const string& timestamp
-){
-    BlockChainNode* newNode = new BlockChainNode;
+        BlockChain &blockChain,
+        const Transaction &transaction,
+        const string &timestamp
+) {
+    BlockChainNode *newNode = new BlockChainNode;
     newNode->transaction = transaction;
     newNode->previous = blockChain.head;
     blockChain.head = newNode;

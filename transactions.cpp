@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <Utilities.h>
+#include "Utilities.h"
 #include <fstream>
 #include "Transaction.h"
 
@@ -22,6 +22,7 @@ void TransactionDumpInfo(const Transaction &transaction, ofstream &file) {
     file << "Receiver Name: " << transaction.receiver << "\n";
     file << "Transaction Value: " << transaction.value << "\n";
 }
+
 /**
  * TransactionHashMessage - Hashs the message of the transaction
  *
@@ -29,9 +30,10 @@ void TransactionDumpInfo(const Transaction &transaction, ofstream &file) {
  *
  * @return The hashed message
 */
-string TransactionHashedMessage(const Transaction& transaction){
+string TransactionHashedMessage(const Transaction &transaction) {
     return hash(transaction.value, transaction.sender, transaction.receiver);
 }
+
 /**
  * TransactionVerifyHashedMessage - Verifies that a given transaction suits a given hashed message
  *
@@ -42,9 +44,9 @@ string TransactionHashedMessage(const Transaction& transaction){
  *
 */
 bool TransactionVerifyHashedMessage(
-        const Transaction& transaction,
+        const Transaction &transaction,
         string hashedMessage
-){
-    return(TransactionHashedMessage(transaction) == hashedMessage);
+) {
+    return (TransactionHashedMessage(transaction) == hashedMessage);
 } //uga uga
 
