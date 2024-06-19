@@ -31,3 +31,18 @@ bool TransactionVerifyHashedMessage(
 ){
     return(TransactionHashedMessage(transaction) == hashedMessage);
 } //uga uga
+
+/**
+ * TransactionDumpInfo - Prints the data of the transaction to a given file
+ * The data is printed in the following format:
+ * Sender Name: <name>
+ * Receiver Name: <name>
+ * Transaction Value: <value>
+ *
+ * @param transaction Transaction to print
+*/
+void TransactionDumpInfo(const Transaction &transaction, ofstream &file) {
+    file << "Sender Name: " << transaction.sender << "\n";
+    file << "Receiver Name: " << transaction.receiver << "\n";
+    file << "Transaction Value: " << transaction.value << "\n";
+}
