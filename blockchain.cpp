@@ -17,6 +17,7 @@ using std::ofstream;
  *
  * @return Balance of the person
 */
+
 int
 BlockChainPersonalBalance(const BlockChain &blockChain, const string &name) {
     unsigned int balance = 0;
