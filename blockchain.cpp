@@ -20,22 +20,16 @@ using std::ofstream;
 
 int
 BlockChainPersonalBalance(const BlockChain &blockChain, const string &name) {
-    unsigned int balance = 0;
+    int balance = 0;
     BlockChainNode *node = blockChain.head;
-    Transaction transact = node->transaction;
-    while (node->previous != nullptr) {
+    while (node != nullptr) {
+        const Transaction &transact = node->transaction;
         if (transact.sender == name) {
             balance -= transact.value;
         } else if (transact.receiver == name) {
             balance += transact.value;
         }
         node = node->previous;
-    }
-    //last check because next node is a nullptr
-    if (transact.sender == name) {
-        balance -= transact.value;
-    } else if (transact.receiver == name) {
-        balance += transact.value;
     }
     return balance;
 }
@@ -95,10 +89,10 @@ void BlockChainAppendTransaction(
 */
 
 int BlockChainGetSize(const BlockChain &blockChain) {
-    int counter = 1;
+    int counter = 0;
     BlockChainNode node = *blockChain.head;
-    while (node.previous != nullptr) {
-        node = *node.previous;
+    while (node != nullptr) {
+        node = node->previous;
         counter++;
     }
     return counter;
