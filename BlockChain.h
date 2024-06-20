@@ -14,6 +14,7 @@ using std::ofstream;
 typedef unsigned int (*updateFunction)(unsigned int);
 
 struct BlockChainNode {
+    string timestamp;
     Transaction transaction;
     BlockChainNode *previous; // points to the head of the nodes
 };

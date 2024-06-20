@@ -63,6 +63,7 @@ void BlockChainAppendTransaction(
     BlockChainNode *newNode = new BlockChainNode;
     newNode->transaction = *newTrans;
     newNode->previous = blockChain.head;
+    newNode->timestamp = timestamp;
     blockChain.head = newNode;
 }
 
@@ -81,5 +82,24 @@ void BlockChainAppendTransaction(
     BlockChainNode *newNode = new BlockChainNode;
     newNode->transaction = transaction;
     newNode->previous = blockChain.head;
+    newNode->timestamp = timestamp;
     blockChain.head = newNode;
+}
+
+/**
+ * BlockChainGetSize - returns the number of Blocks in the BlockChain
+ *
+ * @param blockChain - BlockChain to measure
+ *
+ * @return Number of Blocks in the BlockChain
+*/
+
+int BlockChainGetSize(const BlockChain &blockChain) {
+    int counter = 1;
+    BlockChainNode node = *blockChain.head;
+    while (node.previous != nullptr) {
+        node = *node.previous;
+        counter++;
+    }
+    return counter;
 }
