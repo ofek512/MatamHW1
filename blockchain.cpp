@@ -50,12 +50,12 @@ void BlockChainAppendTransaction(
         const string &receiver,
         const string &timestamp
 ) {
-    Transaction *newTrans = new Transaction;
-    newTrans->value = value;
-    newTrans->sender = sender;
-    newTrans->receiver = receiver;
-    BlockChainNode *newNode = new BlockChainNode;
-    newNode->transaction = *newTrans;
+    Transaction newTrans;
+    newTrans.value = value;
+    newTrans.sender = sender;
+    newTrans.receiver = receiver;
+    auto *newNode = new BlockChainNode;
+    newNode->transaction = newTrans;
     newNode->previous = blockChain.head;
     newNode->timestamp = timestamp;
     blockChain.head = newNode;
@@ -73,7 +73,7 @@ void BlockChainAppendTransaction(
         const Transaction &transaction,
         const string &timestamp
 ) {
-    BlockChainNode *newNode = new BlockChainNode;
+    auto* newNode = new BlockChainNode;
     newNode->transaction = transaction;
     newNode->previous = blockChain.head;
     newNode->timestamp = timestamp;

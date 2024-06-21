@@ -5,3 +5,4 @@
 # Ignore specific files
 CMakeLists.txt
 cmake-build-debug/
+.idea/
