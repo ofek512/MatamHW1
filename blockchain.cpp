@@ -149,7 +149,29 @@ void BlockChainDump(const BlockChain& blockChain, ofstream& file){
         file << "Sender name: " << current_node->transaction.sender << endl;
         file << "Receiver name: " << current_node->transaction.receiver << endl;
         file << "Transaction Value: " << current_node->transaction.value << endl;
-        file << "Transaction Timestamp: " << current_node->timestamp << endl;
+        file << "Transaction timestamp: " << current_node->timestamp << endl;
         current_node = current_node->previous;
     }
 }
+/**
+ * BlockChainDumpHashed - Prints the *hashed data* of all transactions in the BlockChain to a given file
+ *
+ * Data will be printed in the following format:
+ * <hashed message>
+ * <hashed message>
+ * ...
+ * <hashed message>
+ *
+ * @param blockChain BlockChain to print
+ * @param file File to print to
+ *
+*/
+void BlockChainDumpHashed(const BlockChain& blockChain, ofstream& file){
+    auto* current_node = blockChain.head;
+    for(int i = 1; i < BlockChainGetSize(blockChain); i++){
+        file << TransactionHashedMessage(current_node->transaction) << endl;
+        current_node = current_node->previous;
+    }
+    file << TransactionHashedMessage(current_node->transaction);
+}
+
