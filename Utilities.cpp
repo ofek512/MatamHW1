@@ -4,7 +4,6 @@
 
 using std::string;
 
-
 string hash(int key, const string& value1, const string& value2) {
     static const int out_size = 20;
     char bytes[out_size + 1] = {0};
