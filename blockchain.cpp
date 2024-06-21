@@ -9,6 +9,7 @@
 
 using std::ifstream;
 using std::ofstream;
+using std::endl;
 
 /**
  * BlockChainPersonalBalance - returns the balance of a given person, relative to a given BlockChain
@@ -121,4 +122,34 @@ BlockChain BlockChainLoad(ifstream& file){
         temp_blockchain.head = temp_blockchain.head->previous;
     }
     return blockchain;
+}
+
+/**
+ * BlockChainDump - Prints the data of all transactions in the BlockChain to a given file
+ *
+ * Data will be printed in the following format:
+ *
+ * BlockChain info:
+ * <n>.
+ * Sender Name: <name>
+ * Receiver Name: <name>
+ * Transaction Value: <value>
+ * Transaction Timestamp: <time>
+ *
+ * @param blockChain BlockChain to print
+ * @param file File to print to
+ *
+*/
+void BlockChainDump(const BlockChain& blockChain, ofstream& file){
+    auto* current_node = blockChain.head;
+    int counter = 1;
+    file << "BlockChain info:" << endl;
+    while(current_node != nullptr){
+        file << counter << "." << endl;
+        file << "Sender name: " << current_node->transaction.sender << endl;
+        file << "Receiver name: " << current_node->transaction.receiver << endl;
+        file << "Transaction Value: " << current_node->transaction.value << endl;
+        file << "Transaction Timestamp: " << current_node->timestamp << endl;
+        current_node = current_node->previous;
+    }
 }
