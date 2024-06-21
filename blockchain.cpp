@@ -9,7 +9,6 @@ using std::string;
 using std::ifstream;
 using std::ofstream;
 
-
 /**
  * BlockChainPersonalBalance - returns the balance of a given person, relative to a given BlockChain
  *
@@ -18,10 +17,22 @@ using std::ofstream;
  *
  * @return Balance of the person
 */
+
 int
 BlockChainPersonalBalance(const BlockChain &blockChain, const string &name) {
+    int balance = 0;
+    BlockChainNode *node = blockChain.head;
+    while (node != nullptr) {
+        const Transaction &transact = node->transaction;
+        if (transact.sender == name) {
+            balance -= transact.value;
+        } else if (transact.receiver == name) {
+            balance += transact.value;
+        }
+        node = node->previous;
+    }
+    return balance;
 }
-
 
 /**
  * BlockChainAppendTransaction - creates and appends a new transaction to the BlockChain
@@ -39,9 +50,16 @@ void BlockChainAppendTransaction(
         const string &receiver,
         const string &timestamp
 ) {
-
+    Transaction *newTrans = new Transaction;
+    newTrans->value = value;
+    newTrans->sender = sender;
+    newTrans->receiver = receiver;
+    BlockChainNode *newNode = new BlockChainNode;
+    newNode->transaction = *newTrans;
+    newNode->previous = blockChain.head;
+    newNode->timestamp = timestamp;
+    blockChain.head = newNode;
 }
-
 
 /**
  * BlockChainAppendTransaction - appends a copy of a given transaction to the BlockChain
@@ -55,5 +73,27 @@ void BlockChainAppendTransaction(
         const Transaction &transaction,
         const string &timestamp
 ) {
+    BlockChainNode *newNode = new BlockChainNode;
+    newNode->transaction = transaction;
+    newNode->previous = blockChain.head;
+    newNode->timestamp = timestamp;
+    blockChain.head = newNode;
+}
 
+/**
+ * BlockChainGetSize - returns the number of Blocks in the BlockChain
+ *
+ * @param blockChain - BlockChain to measure
+ *
+ * @return Number of Blocks in the BlockChain
+*/
+
+int BlockChainGetSize(const BlockChain &blockChain) {
+    int counter = 0;
+    BlockChainNode node = *blockChain.head;
+    while (node != nullptr) {
+        node = node->previous;
+        counter++;
+    }
+    return counter;
 }
