@@ -174,4 +174,30 @@ void BlockChainDumpHashed(const BlockChain& blockChain, ofstream& file){
     }
     file << TransactionHashedMessage(current_node->transaction);
 }
+/**
+ * BlockChainVerifyFile - verifies that the file contains correct hashed messages of the given BlockChain
+ *
+ * Input file is expected to contain data in the following format:
+ * <hashed message>
+ * <hashed message>
+ * ...
+ * <hashed message>
+ *
+ * @param blockChain BlockChain to verify
+ * @param file File to read from
+ *
+ * @return true if the file is valid, false otherwise
+*/
+bool BlockChainVerifyFile(const BlockChain& blockChain, std::ifstream& file){
+    auto* current_node = blockChain.head;
+    string current_hashcode;
+    while(file >> current_hashcode){
+        if(current_node == nullptr || current_hashcode != TransactionHashedMessage(current_node->transaction))
+            return false;
+        current_node = current_node->previous;
+    }
+    if(current_node!= nullptr)
+        return false;
+    return true;
+}
 
