@@ -12,20 +12,12 @@ using std::ofstream;
 
 
 typedef unsigned int (*updateFunction)(unsigned int);
-
-struct BlockChainNode {
-    string timestamp;
-    Transaction transaction;
-    BlockChainNode *previous; // points to the head of the nodes
-};
-
 /**
 *
  * BlockChain - Defining the new BlockChain Type
  *
 */
 struct BlockChain {
-    BlockChainNode *head; // points to the head of the nodes
 };
 
 
