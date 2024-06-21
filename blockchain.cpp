@@ -90,7 +90,7 @@ void BlockChainAppendTransaction(
 
 int BlockChainGetSize(const BlockChain &blockChain) {
     int counter = 0;
-    BlockChainNode node = *blockChain.head;
+    BlockChainNode* node = blockChain.head;
     while (node != nullptr) {
         node = node->previous;
         counter++;
