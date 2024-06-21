@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include <string>
@@ -5,7 +6,7 @@
 #include "BlockChain.h"
 #include "Transaction.h"
 
-using std::string;
+
 using std::ifstream;
 using std::ofstream;
 
@@ -20,6 +21,18 @@ using std::ofstream;
 
 int
 BlockChainPersonalBalance(const BlockChain &blockChain, const string &name) {
+    int balance = 0;
+    BlockChainNode *node = blockChain.head;
+    while (node != nullptr) {
+        const Transaction &transact = node->transaction;
+        if (transact.sender == name) {
+            balance -= transact.value;
+        } else if (transact.receiver == name) {
+            balance += transact.value;
+        }
+        node = node->previous;
+    }
+    return balance;
 }
 
 /**
@@ -38,7 +51,15 @@ void BlockChainAppendTransaction(
         const string &receiver,
         const string &timestamp
 ) {
-    Transaction *newTrans = new Transaction;
+    Transaction newTrans;
+    newTrans.value = value;
+    newTrans.sender = sender;
+    newTrans.receiver = receiver;
+    auto *newNode = new BlockChainNode;
+    newNode->transaction = newTrans;
+    newNode->previous = blockChain.head;
+    newNode->timestamp = timestamp;
+    blockChain.head = newNode;
 }
 
 /**
@@ -53,6 +74,11 @@ void BlockChainAppendTransaction(
         const Transaction &transaction,
         const string &timestamp
 ) {
+    auto* newNode = new BlockChainNode;
+    newNode->transaction = transaction;
+    newNode->previous = blockChain.head;
+    newNode->timestamp = timestamp;
+    blockChain.head = newNode;
 }
 
 /**
@@ -64,4 +90,35 @@ void BlockChainAppendTransaction(
 */
 
 int BlockChainGetSize(const BlockChain &blockChain) {
+    int counter = 0;
+    BlockChainNode* node = blockChain.head;
+    while (node != nullptr) {
+        node = node->previous;
+        counter++;
+    }
+    return counter;
+}
+
+/**
+ * BlockChainLoad - Reads data from a file and creates a new block chain
+ *
+ * @param file Data file to read from
+ *
+ * @return BlockChain created from the file
+ *
+*/
+BlockChain BlockChainLoad(ifstream& file){
+    BlockChain blockchain, temp_blockchain;
+    blockchain.head = nullptr;
+    temp_blockchain.head = nullptr;
+    string sender, receiver, time_stamp;
+    int sum;
+    while(file >> sender >> receiver >> sum >> time_stamp){
+        BlockChainAppendTransaction(temp_blockchain,sum, sender, receiver, time_stamp);
+    }
+    for(int i = 0; i < BlockChainGetSize(temp_blockchain);i++){
+        BlockChainAppendTransaction(blockchain, temp_blockchain.head->transaction, temp_blockchain.head->timestamp);
+        temp_blockchain.head = temp_blockchain.head->previous;
+    }
+    return blockchain;
 }

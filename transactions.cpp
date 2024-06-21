@@ -48,5 +48,5 @@ bool TransactionVerifyHashedMessage(
         string hashedMessage
 ) {
     return (TransactionHashedMessage(transaction) == hashedMessage);
-} //uga uga
+}
 
