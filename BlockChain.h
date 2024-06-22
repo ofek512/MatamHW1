@@ -21,7 +21,7 @@ struct BlockChainNode {
 
 /**
 *
- * BlockChain - Defining the new BlockChain Type
+ * BlockChain - Defining the new BlockChain Type //+
  *
 */
 struct BlockChain {
@@ -30,7 +30,7 @@ struct BlockChain {
 
 
 /**
- * BlockChainGetSize - returns the number of Blocks in the BlockChain
+ * BlockChainGetSize - returns the number of Blocks in the BlockChain //+
  *
  * @param blockChain - BlockChain to measure
  *
@@ -40,7 +40,7 @@ int BlockChainGetSize(const BlockChain& blockChain);
 
 
 /**
- * BlockChainPersonalBalance - returns the balance of a given person, relative to a given BlockChain
+ * BlockChainPersonalBalance - returns the balance of a given person, relative to a given BlockChain //+
  *
  * @param blockChain - BlockChain to calculate the balance from
  * @param name - Name of the person to calculate the balance for
@@ -51,7 +51,7 @@ int BlockChainPersonalBalance(const BlockChain& blockChain, const string& name);
 
 
 /**
- * BlockChainAppendTransaction - creates and appends a new transaction to the BlockChain
+ * BlockChainAppendTransaction - creates and appends a new transaction to the BlockChain //+
  *
  * @param blockChain BlockChain to append the transaction to
  * @param value Value of the transaction
@@ -69,7 +69,7 @@ void BlockChainAppendTransaction(
 
 
 /**
- * BlockChainAppendTransaction - appends a copy of a given transaction to the BlockChain
+ * BlockChainAppendTransaction - appends a copy of a given transaction to the BlockChain //+
  *
  * @param blockChain BlockChain to append the transaction to
  * @param transaction Transaction we want to append

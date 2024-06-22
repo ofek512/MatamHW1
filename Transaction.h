@@ -7,7 +7,6 @@
 using std::string;
 using std::ofstream;
 
-
 /**
 *
  * Transaction - Defining the new Transaction Type
