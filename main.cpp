@@ -42,12 +42,12 @@ int main(int argc , char** argv){
     else if(std::string(argv[1]) == "format"){
         BlockChainDump(blockChain, output);
     }
-    else if(std::string(argv[1]) == "verify"){
+    /*else if(std::string(argv[1]) == "verify"){
         if(BlockChainVerifyFile(blockChain, file))
             output << "Verification passed";
         else
             output << "Verification failed";
-    }
+    }*/
     //there is some problems with main, check if u have koah
     output.close();
     file.close();
