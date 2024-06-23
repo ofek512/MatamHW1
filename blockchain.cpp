@@ -220,3 +220,16 @@ void BlockChainCompress(BlockChain &blockChain) {
     }
 
 }
+/**
+ * BlockChainTransform - Update the values of each transaction in the BlockChain
+ *
+ * @param blockChain BlockChain to update
+ * @param function a pointer to a transform function
+*/
+void BlockChainTransform(BlockChain& blockChain, updateFunction function){
+    auto* temp_node = blockChain.head;
+    for(int i = 0; i < BlockChainGetSize(blockChain); i++){
+        temp_node->transaction.value = function(temp_node->transaction.value);
+        temp_node = temp_node->previous;
+    }
+}
