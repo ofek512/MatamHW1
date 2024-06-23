@@ -187,9 +187,7 @@ bool BlockChainVerifyFile(const BlockChain &blockChain, std::ifstream &file) {
             return false;
         current_node = current_node->previous;
     }
-    if (current_node != nullptr)
-        return false;
-    return true;
+    return current_node == nullptr;
 }
 
 /**
