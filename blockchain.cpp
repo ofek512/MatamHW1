@@ -1,15 +1,13 @@
 
-#pragma once
-
 #include <string>
 #include <fstream>
 #include "BlockChain.h"
 #include "Transaction.h"
 
-
 using std::ifstream;
 using std::ofstream;
 using std::endl;
+using std::string;
 
 /**
  * BlockChainPersonalBalance - returns the balance of a given person, relative to a given BlockChain
@@ -19,9 +17,7 @@ using std::endl;
  *
  * @return Balance of the person
 */
-
-int
-BlockChainPersonalBalance(const BlockChain &blockChain, const string &name) {
+int BlockChainPersonalBalance(const BlockChain &blockChain, const string &name) {
     int balance = 0;
     BlockChainNode *node = blockChain.head;
     while (node != nullptr) {
@@ -85,7 +81,6 @@ void BlockChainAppendTransaction(
  *
  * @return Number of Blocks in the BlockChain
 */
-
 int BlockChainGetSize(const BlockChain &blockChain) {
     int counter = 0;
     BlockChainNode *node = blockChain.head;
@@ -102,22 +97,22 @@ int BlockChainGetSize(const BlockChain &blockChain) {
  * @param file Data file to read from
  *
  * @return BlockChain created from the file
- *
 */
 BlockChain BlockChainLoad(ifstream &file) {
-    BlockChain blockchain, temp_blockchain;
+    BlockChain blockchain, reversed_blockchain;
     blockchain.head = nullptr;
-    temp_blockchain.head = nullptr;
-    string sender, receiver, time_stamp;
-    int sum;
-    while (file >> sender >> receiver >> sum >> time_stamp) {
-        BlockChainAppendTransaction(temp_blockchain, sum, sender, receiver, time_stamp);
+    reversed_blockchain.head = nullptr;
+    string sender, receiver, timestamp;
+    int value;
+    while (file >> sender >> receiver >> value >> timestamp) {
+        BlockChainAppendTransaction(blockchain, value, sender, receiver, timestamp);
     }
-    for (int i = 0; i < BlockChainGetSize(temp_blockchain); i++) {
-        BlockChainAppendTransaction(blockchain, temp_blockchain.head->transaction, temp_blockchain.head->timestamp);
-        temp_blockchain.head = temp_blockchain.head->previous;
+    auto* current_node = blockchain.head;
+    while(current_node != nullptr){
+        BlockChainAppendTransaction(reversed_blockchain,current_node->transaction, current_node->timestamp);
+        current_node = current_node->previous;
     }
-    return blockchain;
+    return reversed_blockchain;
 }
 
 /**
@@ -134,7 +129,6 @@ BlockChain BlockChainLoad(ifstream &file) {
  *
  * @param blockChain BlockChain to print
  * @param file File to print to
- *
 */
 void BlockChainDump(const BlockChain &blockChain, ofstream &file) {
     auto *current_node = blockChain.head;
@@ -147,6 +141,7 @@ void BlockChainDump(const BlockChain &blockChain, ofstream &file) {
         file << "Transaction Value: " << current_node->transaction.value << endl;
         file << "Transaction timestamp: " << current_node->timestamp << endl;
         current_node = current_node->previous;
+        counter++;
     }
 }
 
@@ -161,15 +156,13 @@ void BlockChainDump(const BlockChain &blockChain, ofstream &file) {
  *
  * @param blockChain BlockChain to print
  * @param file File to print to
- *
 */
 void BlockChainDumpHashed(const BlockChain &blockChain, ofstream &file) {
     auto *current_node = blockChain.head;
-    for (int i = 1; i < BlockChainGetSize(blockChain); i++) {
+    while (current_node != nullptr) {
         file << TransactionHashedMessage(current_node->transaction) << endl;
         current_node = current_node->previous;
     }
-    file << TransactionHashedMessage(current_node->transaction);
 }
 
 /**
@@ -207,29 +200,16 @@ bool BlockChainVerifyFile(const BlockChain &blockChain, std::ifstream &file) {
 */
 void BlockChainCompress(BlockChain &blockChain) {
     auto *looper = blockChain.head;
-    BlockChainNode *temp;
-    while (looper->previous != nullptr) {
-        temp = looper->previous;
-        if (looper->transaction.sender == looper->previous->transaction.sender
-            && looper->transaction.receiver == looper->previous->transaction.receiver) {
-            looper->transaction.value += looper->previous->transaction.value;
-            looper->timestamp = looper->previous->timestamp;
-            looper->previous = looper->previous->previous;
-            delete[] temp;
+    while (looper != nullptr && looper->previous != nullptr) {
+        BlockChainNode *temp = looper->previous;
+        if (looper->transaction.sender == temp->transaction.sender
+            && looper->transaction.receiver == temp->transaction.receiver) {
+            looper->transaction.value += temp->transaction.value;
+            looper->timestamp = temp->timestamp;
+            looper->previous = temp->previous;
+            delete temp;
+        } else {
+            looper = temp;
         }
-    }
-
-}
-/**
- * BlockChainTransform - Update the values of each transaction in the BlockChain
- *
- * @param blockChain BlockChain to update
- * @param function a pointer to a transform function
-*/
-void BlockChainTransform(BlockChain& blockChain, updateFunction function){
-    auto* temp_node = blockChain.head;
-    for(int i = 0; i < BlockChainGetSize(blockChain); i++){
-        temp_node->transaction.value = function(temp_node->transaction.value);
-        temp_node = temp_node->previous;
     }
 }
