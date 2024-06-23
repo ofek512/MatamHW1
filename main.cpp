@@ -11,6 +11,22 @@ using std::string;
 
 
 int main(int argc , char** argv){
+    //error handlings
+    if (argc < 4) {
+        std::cerr << getErrorMessage() << std::endl;
+        return 1;
+    }
+    std::ifstream file(argv[2]);
+    if (!file.is_open()) {
+        std::cerr << "Error: Cannot open source file " << argv[2] << std::endl;
+        return 1;
+    }
+    std::ofstream output(argv[3]);
+    if (!output.is_open()) {
+        std::cerr << "Error: Cannot open target file " << argv[3] << std::endl;
+        return 1;
+    }
+    
     std::ifstream file;
     std::ofstream output;
     output.open(argv[3]);
@@ -20,21 +36,18 @@ int main(int argc , char** argv){
         BlockChainCompress(blockChain);
         BlockChainDump(blockChain, output);
     }
-    if(std::string(argv[1]) == "hash"){
+    else if(std::string(argv[1]) == "hash"){
         BlockChainDumpHashed(blockChain, output);
     }
-    if(std::string(argv[1]) == "format"){
+    else if(std::string(argv[1]) == "format"){
         BlockChainDump(blockChain, output);
     }
-    /*if(std::string(argv[1]) == "verify"){
-        std::ifstream target;
-        target.open(argv[2]);
-        if(BlockChainVerifyFile(blockChain, target))
+    else if(std::string(argv[1]) == "verify"){
+        if(BlockChainVerifyFile(blockChain, file))
             output << "Verification passed";
         else
             output << "Verification failed";
-        target.close();
-    }*/
+    }
     //there is some problems with main, check if u have koah
     output.close();
     file.close();
