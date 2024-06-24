@@ -107,9 +107,9 @@ BlockChain BlockChainLoad(ifstream &file) {
     while (file >> sender >> receiver >> value >> timestamp) {
         BlockChainAppendTransaction(blockchain, value, sender, receiver, timestamp);
     }
-    auto* current_node = blockchain.head;
-    while(current_node != nullptr){
-        BlockChainAppendTransaction(reversed_blockchain,current_node->transaction, current_node->timestamp);
+    auto *current_node = blockchain.head;
+    while (current_node != nullptr) {
+        BlockChainAppendTransaction(reversed_blockchain, current_node->transaction, current_node->timestamp);
         current_node = current_node->previous;
     }
     return reversed_blockchain;
@@ -136,8 +136,8 @@ void BlockChainDump(const BlockChain &blockChain, ofstream &file) {
     file << "BlockChain info:" << endl;
     while (current_node != nullptr) {
         file << counter << "." << endl;
-        file << "Sender name: " << current_node->transaction.sender << endl;
-        file << "Receiver name: " << current_node->transaction.receiver << endl;
+        file << "Sender Name: " << current_node->transaction.sender << endl;
+        file << "Receiver Name: " << current_node->transaction.receiver << endl;
         file << "Transaction Value: " << current_node->transaction.value << endl;
         file << "Transaction timestamp: " << current_node->timestamp << endl;
         current_node = current_node->previous;
@@ -203,7 +203,7 @@ void BlockChainCompress(BlockChain &blockChain) {
         if (looper->transaction.sender == temp->transaction.sender
             && looper->transaction.receiver == temp->transaction.receiver) {
             looper->transaction.value += temp->transaction.value;
-            looper->timestamp = temp->timestamp;
+            looper->timestamp = looper->timestamp;
             looper->previous = temp->previous;
             delete temp;
         } else {
