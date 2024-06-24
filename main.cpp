@@ -1,6 +1,6 @@
-
 #include <string>
 #include <fstream>
+#include <iostream>
 #include "BlockChain.h"
 #include "Transaction.h"
 
@@ -9,47 +9,64 @@ using std::ofstream;
 using std::endl;
 using std::string;
 
-
-int main(int argc , char** argv){
-    //error handlings
+int main(int argc, char **argv) {
     if (argc < 4) {
-        std::cerr << getErrorMessage() << std::endl;
+        std::cerr << "Usage: ./mtm_blockchain <command> <source> <target> [<output>]" << std::endl;
         return 1;
     }
-    std::ifstream file(argv[2]);
+
+    ifstream file(argv[2]);
     if (!file.is_open()) {
-        std::cerr << "Error: Cannot open source file " << argv[2] << std::endl;
+        std::cerr << "Error opening source file: " << argv[2] << std::endl;
         return 1;
     }
-    std::ofstream output(argv[3]);
-    if (!output.is_open()) {
-        std::cerr << "Error: Cannot open target file " << argv[3] << std::endl;
-        return 1;
-    }
-    
-    std::ifstream file;
-    std::ofstream output;
-    output.open(argv[3]);
-    file.open(argv[2]);
+
     BlockChain blockChain = BlockChainLoad(file);
-    if(std::string(argv[1]) == "compress"){
-        BlockChainCompress(blockChain);
-        BlockChainDump(blockChain, output);
-    }
-    else if(std::string(argv[1]) == "hash"){
-        BlockChainDumpHashed(blockChain, output);
-    }
-    else if(std::string(argv[1]) == "format"){
-        BlockChainDump(blockChain, output);
-    }
-    /*else if(std::string(argv[1]) == "verify"){
-        if(BlockChainVerifyFile(blockChain, file))
-            output << "Verification passed";
-        else
-            output << "Verification failed";
-    }*/
-    //there is some problems with main, check if u have koah
-    output.close();
     file.close();
-        return 0;
+
+    string command = argv[1];
+    if (command == "verify") {
+        if (argc < 5) {
+            std::cerr << "Usage: ./mtm_blockchain verify <source> <target> <output>" << std::endl;
+            return 1;
+        }
+
+        ifstream target(argv[3]);
+        if (!target.is_open()) {
+            std::cerr << "Error opening target file: " << argv[3] << std::endl;
+            return 1;
+        }
+
+        ofstream output("tests/" + string(argv[4]));
+        if (!output.is_open()) {
+            std::cerr << "Error opening output file: tests/" << argv[4] << std::endl;
+            return 1;
+        }
+
+        if (BlockChainVerifyFile(blockChain, target))
+            output << "Verification passed" << endl;
+        else
+            output << "Verification failed" << endl;
+
+    } else {
+        ofstream output(argv[3]);
+        if (!output.is_open()) {
+            std::cerr << "Error opening target file: " << argv[3] << std::endl;
+            return 1;
+        }
+
+        if (command == "compress") {
+            BlockChainCompress(blockChain);
+            BlockChainDump(blockChain, output);
+        } else if (command == "hash") {
+            BlockChainDumpHashed(blockChain, output);
+        } else if (command == "format") {
+            BlockChainDump(blockChain, output);
+        } else {
+            std::cerr << "Unknown command: " << command << std::endl;
+            return 1;
+        }
+    }
+
+    return 0;
 }
