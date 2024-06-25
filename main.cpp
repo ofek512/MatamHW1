@@ -12,6 +12,10 @@ using std::string;
 
 int main(int argc, char **argv) {
     std::ifstream file;
+    if (argc < 4 || argc > 5) {
+        std::cerr << "Usage: ./mtm_blockchain <op> <source> <target>" << std::endl;
+        return 1;
+    }
     file.open(argv[2]);
     BlockChain blockChain = BlockChainLoad(file);
     if (std::string(argv[1]) == "verify") {
@@ -35,7 +39,6 @@ int main(int argc, char **argv) {
         if (std::string(argv[1]) == "format") {
             BlockChainDump(blockChain, output);
         }
-        //there is some problems with main, check if u have koah
         output.close();
         file.close();
     }

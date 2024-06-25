@@ -133,7 +133,7 @@ BlockChain BlockChainLoad(ifstream &file) {
 void BlockChainDump(const BlockChain &blockChain, ofstream &file) {
     auto *current_node = blockChain.head;
     int counter = 1;
-    file << "BlockChain info:" << endl;
+    file << "BlockChain Info:" << endl;
     while (current_node != nullptr) {
         file << counter << "." << endl;
         file << "Sender Name: " << current_node->transaction.sender << endl;
