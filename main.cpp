@@ -3,6 +3,7 @@
 #include <iostream>
 #include "BlockChain.h"
 #include "Transaction.h"
+#include "Utilities.h"
 
 using std::ifstream;
 using std::ofstream;
@@ -13,7 +14,7 @@ using std::string;
 int main(int argc, char **argv) {
     std::ifstream file;
     if (argc < 4 || argc > 5) {
-        std::cerr << "Usage: ./mtm_blockchain <op> <source> <target>" << std::endl;
+        std::cerr << getErrorMessage() << std::endl;
         return 1;
     }
     file.open(argv[2]);
@@ -44,3 +45,4 @@ int main(int argc, char **argv) {
     }
     return 0;
 }
+//yipee
